@@ -3,3 +3,8 @@ _*.js
 _opt_*.jpg
 Thumbs.db
 desktop.ini
+
+# Vercel CLI
+.vercel/
+
+.vercel
