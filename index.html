@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>สนับสนุนผู้พัฒนา</title>
+<meta name="description" content="สนับสนุนการพัฒนาโปรเจกต์โอเพนซอร์ส ด้วยการโอนผ่านพร้อมเพย์">
+<meta property="og:title" content="สนับสนุนผู้พัฒนา">
+<meta property="og:description" content="สแกนพร้อมเพย์เพื่อสนับสนุนการพัฒนาโปรเจกต์โอเพนซอร์ส">
+<meta property="og:type" content="website">
+<meta property="og:image" content="promptpay.jpg">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f3f5f9;
+    --card: #ffffff;
+    --fg: #1b1f27;
+    --muted: #666e7d;
+    --line: #e2e6ee;
+    --accent: #1f6feb;
+    --warn-bg: #fff4e5;
+    --warn-fg: #7a4b00;
+    --warn-line: #f0c48a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151b;
+      --card: #1b1f27;
+      --fg: #e8eaf0;
+      --muted: #9aa3b2;
+      --line: #2b313c;
+      --accent: #4c8dff;
+      --warn-bg: #3a2a10;
+      --warn-fg: #ffd9a0;
+      --warn-line: #7a5a20;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 28px 16px 48px;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.6 "Sarabun", "Segoe UI", "Leelawadee UI", Tahoma, system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+  }
+  .wrap { width: 100%; max-width: 420px; }
+
+  header { text-align: center; margin-bottom: 20px; }
+  header h1 { margin: 0 0 6px; font-size: 24px; font-weight: 700; letter-spacing: -.01em; }
+  header p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  /* The QR is already a finished card from the bank, so it gets a plain
+     frame rather than a second layer of decoration around it. */
+  .qr {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, .08), 0 14px 36px rgba(16, 24, 40, .10);
+  }
+  .qr[hidden] { display: none; }
+
+  .note { margin: 14px 0 0; text-align: center; font-size: 14px; color: var(--muted); }
+
+  .actions { display: flex; gap: 8px; margin-top: 16px; }
+  .actions a, .actions button {
+    flex: 1;
+    padding: 11px 10px;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    background: var(--card);
+    color: inherit;
+    font: inherit;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+  .actions a:hover, .actions button:hover { border-color: var(--accent); }
+
+  .steps {
+    margin: 20px 0 0;
+    padding: 16px 18px 16px 34px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .steps li { margin-bottom: 5px; }
+  .steps li:last-child { margin-bottom: 0; }
+  .steps strong { color: var(--fg); }
+
+  footer { margin-top: 22px; text-align: center; font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+
+  .warn {
+    border: 1px solid var(--warn-line);
+    background: var(--warn-bg);
+    color: var(--warn-fg);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .warn h3 { margin: 0 0 8px; font-size: 16px; }
+  .warn code { background: rgba(0, 0, 0, .12); padding: 1px 6px; border-radius: 5px; font-size: 14px; }
+  .warn p { margin: 8px 0 0; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>สนับสนุนผู้พัฒนา</h1>
+    <p id="blurb">ถ้าเครื่องมือที่ทำไว้มีประโยชน์ เลี้ยงกาแฟกันได้ครับ</p>
+  </header>
+
+  <img class="qr" id="qr" src="promptpay.jpg"
+       alt="คิวอาร์โค้ดพร้อมเพย์สำหรับโอนเงินสนับสนุน">
+
+  <div id="missing" hidden class="warn">
+    <h3>ยังไม่มีไฟล์ QR</h3>
+    <p>วางไฟล์รูปพร้อมเพย์ชื่อ <code>promptpay.jpg</code> ไว้ในโฟลเดอร์เดียวกับ <code>index.html</code></p>
+    <p>หน้านี้จะแสดง QR ก็ต่อเมื่อมีไฟล์จริงเท่านั้น</p>
+  </div>
+
+  <p class="note" id="note">โอนได้ตามสะดวก · กรอกจำนวนเงินเองในแอปธนาคาร</p>
+
+  <div class="actions" id="actions">
+    <button type="button" id="save">บันทึกรูป QR</button>
+    <a id="projects" href="#" target="_blank" rel="noopener">ดูโปรเจกต์ทั้งหมด</a>
+  </div>
+
+  <ol class="steps">
+    <li>เปิดแอปธนาคาร แล้วเลือกเมนู <strong>สแกน</strong></li>
+    <li>สแกน QR ด้านบน (หรือกดบันทึกรูปแล้วเลือกจากคลังภาพ)</li>
+    <li>ใส่จำนวนเงินที่ต้องการ</li>
+    <li><strong>ตรวจชื่อผู้รับให้ตรงก่อนกดยืนยันทุกครั้ง</strong></li>
+  </ol>
+
+  <footer>
+    <p style="margin:0">ขอบคุณที่สนับสนุนงานโอเพนซอร์สครับ</p>
+  </footer>
+</div>
+
+<script>
+/* ==========================================================================
+   ตั้งค่าตรงนี้ที่เดียว
+   ========================================================================== */
+
+var PROJECTS_URL = 'https://github.com/jakrapolgod';
+var QR_FILE      = 'promptpay.jpg';
+
+/* ========================================================================== */
+
+(function () {
+  'use strict';
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  $('projects').href = PROJECTS_URL;
+  $('qr').src = QR_FILE;
+
+  /* Without the image there is nothing to scan, so say so plainly instead of
+     leaving a broken picture on a page that asks people for money. */
+  $('qr').addEventListener('error', function () {
+    $('qr').hidden = true;
+    $('missing').hidden = false;
+    $('note').hidden = true;
+    $('actions').hidden = true;
+  });
+
+  /* Saving the picture lets people send it on in LINE, or scan it from the
+     gallery when they are reading on the same phone they bank with. */
+  $('save').addEventListener('click', function () {
+    var a = document.createElement('a');
+    a.href = QR_FILE;
+    a.download = 'promptpay.jpg';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# ไฟล์ชั่วคราวตอนทดสอบ
+_*.js
+_opt_*.jpg
+Thumbs.db
+desktop.ini
